@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acertijos de Programación - Día de Muertos</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 30% 20%, #3a1a1a, transparent 50%);
+        }
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #ff6600;
+        }
+        .subtitle {
+            text-align: center;
+            color: #ff9933;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #2a1510;
+            border: 2px solid #ff6600;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .pregunta {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 10px;
+            background: #1a0a0a;
+            color: #fff;
+            border: 1px solid #ff6600;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff6600, #ff3300);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .resultado {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 24px;
+        }
+        .correcto { color: #4caf50; }
+        .incorrecto { color: #ff5555; }
+        #final {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: #2a1510;
+            border: 3px solid #ffcc00;
+            border-radius: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #final h2 { color: #ffcc00; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>💀 Acertijos de Programación 💀</h1>
+    <p class="subtitle">Resuelve los 5 y gana tu pan de muerto.<br>Si fallas… te vas a la tumba.</p>
+
+    <div class="card">
+        <div class="pregunta"><strong>1.</strong> Soy invisible pero todos me usan. Sin mí no hay programa que funcione. ¿Qué soy?</div>
+        <input type="text" id="r1" placeholder="Escribe tu respuesta...">
+        <button onclick="verificar(1, ['codigo','código','algoritmo','el codigo','el código','el algoritmo'])">Comprobar</button>
+        <div class="resultado" id="res1"></div>
+    </div>
+
+    <div class="card">
+        <div class="pregunta"><strong>2.</strong> Nunca me canso de repetir lo mismo. Puedo ser for, while o do-while. ¿Qué soy?</div>
+        <input type="text" id="r2" placeholder="Escribe tu respuesta...">
+        <button onclick="verificar(2, ['ciclo','bucle','un ciclo','un bucle','loop'])">Comprobar</button>
+        <div class="resultado" id="res2"></div>
+    </div>
+
+    <div class="card">
+        <div class="pregunta"><strong>3.</strong> Guardo cosas con nombre. Puedo ser número, texto o verdadero/falso. ¿Qué soy?</div>
+        <input type="text" id="r3" placeholder="Escribe tu respuesta...">
+        <button onclick="verificar(3, ['variable','una variable'])">Comprobar</button>
+        <div class="resultado" id="res3"></div>
+    </div>
+
+    <div class="card">
+        <div class="pregunta"><strong>4.</strong> Cuando me equivoco, todo se detiene. El programador me odia, pero me necesita para aprender. ¿Qué soy?</div>
+        <input type="text" id="r4" placeholder="Escribe tu respuesta...">
+        <button onclick="verificar(4, ['error','bug','un error','un bug'])">Comprobar</button>
+        <div class="resultado" id="res4"></div>
+    </div>
+
+    <div class="card">
+        <div class="pregunta"><strong>5.</strong> Soy el final de todo método. Sin mí, la función no entrega nada. ¿Qué soy?</div>
+        <input type="text" id="r5" placeholder="Escribe tu respuesta...">
+        <button onclick="verificar(5, ['return','el return'])">Comprobar</button>
+        <div class="resultado" id="res5"></div>
+    </div>
+
+    <div id="final">
+        <h2 id="titulo-final"></h2>
+        <p id="mensaje-final"></p>
+    </div>
+
+<script>
+    let correctos = [false, false, false, false, false];
+
+    function verificar(num, respuestasValidas) {
+        const input = document.getElementById('r' + num);
+        const res = document.getElementById('res' + num);
+        const valor = input.value.trim().toLowerCase();
+
+        if (respuestasValidas.includes(valor)) {
+            res.textContent = '✅ ¡Correcto!';
+            res.className = 'resultado correcto';
+            correctos[num - 1] = true;
+        } else {
+            res.textContent = '❌ Incorrecto. Intenta de nuevo.';
+            res.className = 'resultado incorrecto';
+            correctos[num - 1] = false;
+        }
+        checarFinal();
+    }
+
+    function checarFinal() {
+        if (correctos.every(v => v === true)) {
+            document.getElementById('final').style.display = 'block';
+            document.getElementById('titulo-final').textContent = '🎉 ¡Ganaste tu pan de muerto!';
+            document.getElementById('mensaje-final').textContent = 'Resolviste los 5 acertijos. ¡Felicidades!';
+        }
+    }
+</script>
+</body>
+</html>
